@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  product-server:
+    build:
+      context: ./server/product-server
+    image: product-server:latest
+    container_name: product-server
+    ports:
+      - "8080:8080"
+
+  credit-card-authorizer:
+    build:
+      context: ./credit-card-authorizer
+    image: credit-card-authorizer:latest
+    container_name: credit-card-authorizer
+    ports:
+      - "8082:8082"
+
+  shopping-cart-service:
+    build:
+      context: ./shopping-cart-service
+    image: shopping-cart-service:latest
+    container_name: shopping-cart-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - rabbitmq
+      - credit-card-authorizer
+
+  warehouseservice:
+    build:
+      context: ./warehouse-service
+    image: warehouseservice:latest
+    container_name: warehouse-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - rabbitmq

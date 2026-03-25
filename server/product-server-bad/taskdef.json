@@ -1,0 +1,18 @@
+{
+  "family": "cs6650-hw2-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "2048",
+  "executionRoleArn": "arn:aws:iam::584103398074:role/LabRole",
+  "containerDefinitions": [
+    {
+      "name": "server",
+      "image": "584103398074.dkr.ecr.us-east-1.amazonaws.com/cs6650-hw2-server:latest",
+      "essential": true,
+      "portMappings": [
+        { "containerPort": 8080, "protocol": "tcp" }
+      ]
+    }
+  ]
+}
